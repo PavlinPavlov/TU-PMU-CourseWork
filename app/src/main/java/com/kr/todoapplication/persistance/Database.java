@@ -1,4 +1,6 @@
-package com.kr.todoapplication;
+package com.kr.todoapplication.persistance;
+
+import com.kr.todoapplication.model.TodoItem;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -2,22 +2,61 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="30dp"
+    android:padding="20dp"
     android:id="@+id/parent_layout">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:id="@+id/ri_image"
         android:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample text"
+        android:text="Sample header"
         android:layout_toEndOf="@id/ri_image"
-        android:layout_centerVertical="true"
         android:layout_marginStart="30dp"
+        android:textSize="20sp"
         android:id="@+id/ri_text"/>
+
+    <TextView
+        android:id="@+id/ri_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/ri_buttons"
+        android:layout_toEndOf="@id/ri_image"
+        android:text="Sample to do item content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:id="@+id/ri_buttons">
+
+        <Button
+            android:layout_width="65dp"
+            android:layout_height="40dp"
+            android:background="#1df21d"
+            android:layout_marginTop="10dp"
+            android:text="Edit"
+            android:textColor="#fff"
+            android:id="@+id/ri_edit_button"/>
+
+        <Button
+            android:layout_width="65dp"
+            android:layout_height="40dp"
+            android:background="#fc0318"
+            android:layout_marginTop="10dp"
+            android:text="Delete"
+            android:textColor="#fff"
+            android:id="@+id/ri_delete_button"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

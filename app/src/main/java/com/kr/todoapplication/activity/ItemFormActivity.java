@@ -1,8 +1,10 @@
-package com.kr.todoapplication;
+package com.kr.todoapplication.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.kr.todoapplication.R;
 
 public class ItemFormActivity extends AppCompatActivity {
 

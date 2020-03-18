@@ -1,4 +1,4 @@
-package com.kr.todoapplication;
+package com.kr.todoapplication.model;
 
 import java.util.Date;
 import java.util.Objects;

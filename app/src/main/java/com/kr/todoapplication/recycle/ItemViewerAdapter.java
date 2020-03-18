@@ -1,4 +1,4 @@
-package com.kr.todoapplication;
+package com.kr.todoapplication.recycle;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.kr.todoapplication.persistance.Database;
+import com.kr.todoapplication.R;
+import com.kr.todoapplication.model.TodoItem;
 
 import java.util.List;
 

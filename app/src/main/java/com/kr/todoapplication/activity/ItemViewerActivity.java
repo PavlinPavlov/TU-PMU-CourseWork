@@ -1,4 +1,4 @@
-package com.kr.todoapplication;
+package com.kr.todoapplication.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
+import com.kr.todoapplication.persistance.Database;
+import com.kr.todoapplication.recycle.ItemViewerAdapter;
+import com.kr.todoapplication.R;
 
 public class ItemViewerActivity extends AppCompatActivity {
 
