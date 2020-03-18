@@ -1,10 +1,13 @@
 package com.kr.todoapplication;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,11 +23,11 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
     private static final String TAG = "ItemViewerAdapter";
 
     private Context context;
-    private List<String> strings;
+    private List<TodoItem> todoItems;
 
-    public ItemViewerAdapter(Context context, List<String> strings) {
+    public ItemViewerAdapter(Context context, List<TodoItem> todoItems) {
         this.context = context;
-        this.strings = strings;
+        this.todoItems = todoItems;
     }
 
     @NonNull
@@ -37,36 +40,60 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) {
         Log.d(TAG, "Binding");
 
-        holder.textView.setText("111 AAAAA");
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        TodoItem currentTodoItem = todoItems.get(position);
+
+        String backgroundColor = position % 2 == 0 ? "#ffffff" : "#e6f5e6";
+
+        holder.header.setText(currentTodoItem.getHeader());
+        holder.content.setText(currentTodoItem.getContent());
+        holder.parentLayout.setBackgroundColor(Color.parseColor(backgroundColor));
+
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "222 BBBBB", Toast.LENGTH_SHORT).show();
+                String removedHeader = Database.data.get(position).getHeader();
+                Database.data.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, Database.data.size());
+                Toast.makeText(context, removedHeader, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return strings.size();
+        return todoItems.size();
     }
 
 
     // view holder class
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout parentLayout;
         ImageView imageView;
-        TextView textView;
+        TextView header;
+        TextView content;
+        Button deleteButton;
+        Button editButton;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             imageView = itemView.findViewById(R.id.ri_image);
-            textView = itemView.findViewById(R.id.ri_text);
+            header = itemView.findViewById(R.id.ri_text);
+            header.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+            content = itemView.findViewById(R.id.ri_content);
+            deleteButton = itemView.findViewById(R.id.ri_delete_button);
+            editButton = itemView.findViewById(R.id.ri_edit_button);
         }
     }
 }

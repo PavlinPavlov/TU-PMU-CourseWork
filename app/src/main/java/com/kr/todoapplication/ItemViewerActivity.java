@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 
 public class ItemViewerActivity extends AppCompatActivity {
 
@@ -17,7 +18,7 @@ public class ItemViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_viewer);
 
         RecyclerView recyclerView = findViewById(R.id.the_recycler_view);
-        ItemViewerAdapter adapter = new ItemViewerAdapter(this, Arrays.asList("", "", ""));
+        ItemViewerAdapter adapter = new ItemViewerAdapter(this, Database.data);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
