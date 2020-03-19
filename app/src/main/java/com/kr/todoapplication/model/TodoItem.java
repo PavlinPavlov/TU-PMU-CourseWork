@@ -1,9 +1,11 @@
 package com.kr.todoapplication.model;
 
+import com.orm.SugarRecord;
+
 import java.util.Date;
 import java.util.Objects;
 
-public class TodoItem {
+public class TodoItem extends SugarRecord<TodoItem> {
 
     private String header;
     private String content;
@@ -11,6 +13,8 @@ public class TodoItem {
     private Date created;
     private Date dueTo;
 
+    public TodoItem() {
+    }
 
     public TodoItem(String header, String content, boolean isImportant, Date dueTo) {
         this.header = header;
