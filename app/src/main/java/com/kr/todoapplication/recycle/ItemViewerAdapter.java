@@ -58,10 +58,11 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
             }
         });
 
-        holder.editButton.setOnClickListener(new View.OnClickListener() {
+        holder.parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 updateItemAt(position);
+                return true;
             }
         });
     }
@@ -96,8 +97,7 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
         ImageView imageView;
         TextView header;
         TextView content;
-        Button deleteButton;
-        Button editButton;
+        ImageView deleteButton;
 
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,7 +107,6 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
             header.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
             content = itemView.findViewById(R.id.ri_content);
             deleteButton = itemView.findViewById(R.id.ri_delete_button);
-            editButton = itemView.findViewById(R.id.ri_edit_button);
         }
     }
 }
