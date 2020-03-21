@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.kr.todoapplication.persistance.Database;
 import com.kr.todoapplication.recycle.ItemViewerAdapter;
 import com.kr.todoapplication.R;
 
@@ -18,7 +17,7 @@ public class ItemViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_viewer);
 
         RecyclerView recyclerView = findViewById(R.id.the_recycler_view);
-        ItemViewerAdapter adapter = new ItemViewerAdapter(this, Database.data);
+        ItemViewerAdapter adapter = new ItemViewerAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

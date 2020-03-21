@@ -5,7 +5,7 @@ import com.orm.SugarRecord;
 import java.util.Date;
 import java.util.Objects;
 
-public class TodoItem extends SugarRecord<TodoItem> {
+public class TodoItem extends SugarRecord {
 
     private String header;
     private String content;

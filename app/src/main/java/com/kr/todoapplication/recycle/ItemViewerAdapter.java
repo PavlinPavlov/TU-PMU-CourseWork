@@ -1,7 +1,6 @@
 package com.kr.todoapplication.recycle;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kr.todoapplication.persistance.Database;
 import com.kr.todoapplication.R;
 import com.kr.todoapplication.model.TodoItem;
+import com.kr.todoapplication.persistance.TodoItemRepository;
 
 import java.util.List;
 
@@ -29,9 +28,9 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
     private Context context;
     private List<TodoItem> todoItems;
 
-    public ItemViewerAdapter(Context context, List<TodoItem> todoItems) {
+    public ItemViewerAdapter(Context context) {
         this.context = context;
-        this.todoItems = todoItems;
+        this.todoItems = TodoItemRepository.getInstance().findAll();
     }
 
     @NonNull
@@ -45,37 +44,48 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) {
-        Log.d(TAG, "Binding");
+        Log.d(TAG, "Binding. Position: " + position);
 
         TodoItem currentTodoItem = todoItems.get(position);
 
-        String backgroundColor = position % 2 == 0 ? "#ffffff" : "#e6f5e6";
-
         holder.header.setText(currentTodoItem.getHeader());
         holder.content.setText(currentTodoItem.getContent());
-        holder.parentLayout.setBackgroundColor(Color.parseColor(backgroundColor));
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String removedHeader = Database.data.get(position).getHeader();
-                Database.data.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, Database.data.size());
-                Toast.makeText(context, removedHeader, Toast.LENGTH_LONG).show();
+                deleteItemAt(position);
             }
         });
 
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateItemAt(position);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return todoItems.size();
+        return (int) TodoItemRepository.getInstance().totalCount();
+    }
+
+    private void deleteItemAt(int position) {
+        TodoItem todoItem = todoItems.get(position);
+        TodoItemRepository.getInstance().delete(todoItem);
+        todoItems.remove(todoItem);
+
+        Log.d(TAG, "Deleted item at " + position);
+
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
+
+        Toast.makeText(context, String.valueOf(todoItem.getId()), Toast.LENGTH_LONG).show();
+    }
+
+    private void updateItemAt(int position) {
+        Log.d(TAG, "An item should be updated (not implemented)");
     }
 
 
