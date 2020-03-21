@@ -4,17 +4,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kr.todoapplication.R;
+import com.kr.todoapplication.model.TodoItem;
+import com.kr.todoapplication.persistance.TodoItemRepository;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setUpReminders();
 
         Button createButton = findViewById(R.id.m_create_new);
         Button viewAllButton = findViewById(R.id.m_view_all);
@@ -32,5 +45,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ItemFormActivity.class));
             }
         });
+    }
+
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        setUpReminders();
+    }
+
+    private void setUpReminders() {
+
+        List<TodoItem> mostImportant = TodoItemRepository.getInstance().findMostImportant();
+        LinearLayout reminderLinearLayout = findViewById(R.id.m_reminder);
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
+
+        for (int i = 0; i < mostImportant.size(); i++) {
+            TodoItem currentTodoItem = mostImportant.get(i);
+            String header = currentTodoItem.getHeader();
+            String dueDateString = dateFormat.format(currentTodoItem.getDueTo());
+            String displayMessage = dueDateString + ": " + header;
+
+            TextView currentTextView = (TextView) reminderLinearLayout.getChildAt(i + 1);
+            currentTextView.setText(displayMessage);
+        }
     }
 }
