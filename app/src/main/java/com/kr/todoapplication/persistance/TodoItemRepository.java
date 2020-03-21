@@ -6,7 +6,8 @@ import java.util.List;
 
 public class TodoItemRepository implements Repository<TodoItem> {
 
-    private TodoItemRepository() {}
+    private TodoItemRepository() {
+    }
 
     @Override
     public long save(TodoItem todoItem) {
@@ -30,7 +31,11 @@ public class TodoItemRepository implements Repository<TodoItem> {
 
     @Override
     public long totalCount() {
-        return  TodoItem.count(TodoItem.class, null, null);
+        return TodoItem.count(TodoItem.class, null, null);
+    }
+
+    public List<TodoItem> findMostImportant() {
+        return TodoItem.findWithQuery(TodoItem.class, "SELECT * FROM TODO_ITEM ORDER BY IS_IMPORTANT DESC, DUE_TO ASC LIMIT 3");
     }
 
     public static TodoItemRepository getInstance() {
