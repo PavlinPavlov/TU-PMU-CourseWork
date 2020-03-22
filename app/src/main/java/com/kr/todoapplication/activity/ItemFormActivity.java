@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.kr.todoapplication.R;
 import com.kr.todoapplication.model.TodoItem;
 import com.kr.todoapplication.persistance.TodoItemRepository;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class ItemFormActivity extends AppCompatActivity {
@@ -37,7 +39,8 @@ public class ItemFormActivity extends AppCompatActivity {
                 String header = ((EditText) findViewById(R.id.if_header)).getText().toString();
                 String content = ((EditText) findViewById(R.id.if_content)).getText().toString();
                 boolean isImportant = ((CheckBox) findViewById(R.id.if_important)).isChecked();
-                TodoItem todoItem = new TodoItem(header, content, isImportant, new Date());
+                Date dueDate = getDateFromDatePicker((DatePicker) findViewById(R.id.if_date));
+                TodoItem todoItem = new TodoItem(header, content, isImportant, dueDate);
 
                 TodoItemRepository.getInstance().save(todoItem);
 
@@ -51,5 +54,16 @@ public class ItemFormActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private Date getDateFromDatePicker(DatePicker datePicker){
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year =  datePicker.getYear();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        return calendar.getTime();
     }
 }
