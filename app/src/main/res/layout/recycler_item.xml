@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp"
-    android:id="@+id/parent_layout">
+    android:padding="20dp">
 
     <ImageView
+        android:id="@+id/ri_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/ri_image"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
+        android:id="@+id/ri_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample header"
-        android:layout_toEndOf="@id/ri_image"
         android:layout_marginStart="30dp"
-        android:textSize="20sp"
-        android:id="@+id/ri_text"/>
+        android:layout_toEndOf="@id/ri_image"
+        android:text="Sample header"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/ri_content"
@@ -31,13 +31,19 @@
         android:text="Sample to do item content" />
 
     <ImageView
+        android:id="@+id/ri_delete_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="#fc0318"
-        android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
-        android:textColor="#fff"
+        android:layout_marginTop="15dp"
         android:layout_toEndOf="@id/ri_content"
-        android:id="@+id/ri_delete_button"/>
+        android:background="#fc0318"
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/ri_db_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
 
 </RelativeLayout>
