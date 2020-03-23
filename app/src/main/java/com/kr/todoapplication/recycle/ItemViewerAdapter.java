@@ -21,7 +21,11 @@ import com.kr.todoapplication.activity.ItemFormActivity;
 import com.kr.todoapplication.model.TodoItem;
 import com.kr.todoapplication.persistance.TodoItemRepository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.ItemViewHolder> {
 
@@ -48,10 +52,14 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, final int position) {
         Log.d(TAG, "Binding. Position: " + position);
 
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
         TodoItem currentTodoItem = todoItems.get(position);
 
         holder.header.setText(currentTodoItem.getHeader());
         holder.content.setText(currentTodoItem.getContent());
+        holder.createdDate.setText(dateFormat.format(currentTodoItem.getCreated()));
+        Date dueDate = currentTodoItem.getDueTo();
+        holder.dueDate.setText(null == dueDate ? "N/A" : dateFormat.format(dueDate));
         holder.databaseIdTextView.setText(String.valueOf(currentTodoItem.getId()));
 
         if (currentTodoItem.isImportant())
@@ -115,6 +123,8 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
         TextView header;
         TextView content;
         ImageView deleteButton;
+        TextView createdDate;
+        TextView dueDate;
 
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -125,6 +135,8 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
             header.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
             content = itemView.findViewById(R.id.ri_content);
             deleteButton = itemView.findViewById(R.id.ri_delete_button);
+            createdDate = itemView.findViewById(R.id.ri_created_date);
+            dueDate = itemView.findViewById(R.id.ri_due_date);
         }
     }
 }

@@ -46,4 +46,43 @@
         android:layout_height="wrap_content"
         android:visibility="invisible" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ri_content"
+        android:layout_marginTop="30dp"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="Created:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/ri_created_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="Some date"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="Due to:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/ri_due_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Some date"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
 </RelativeLayout>
