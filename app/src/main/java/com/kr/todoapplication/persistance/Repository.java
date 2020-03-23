@@ -6,7 +6,9 @@ import com.orm.SugarRecord;
 import java.util.List;
 
 public interface Repository<T extends SugarRecord> {
-    long save(TodoItem todoItem);
+    TodoItem findById(long id);
+
+    long persist(TodoItem todoItem);
 
     void delete(TodoItem todoItem);
 

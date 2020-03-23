@@ -10,7 +10,12 @@ public class TodoItemRepository implements Repository<TodoItem> {
     }
 
     @Override
-    public long save(TodoItem todoItem) {
+    public TodoItem findById(long id) {
+        return TodoItem.findById(TodoItem.class, id);
+    }
+
+    @Override
+    public long persist(TodoItem todoItem) {
         return todoItem.save();
     }
 
