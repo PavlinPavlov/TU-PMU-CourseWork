@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="80dp"
         android:contentDescription="LOGO"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/logo" />
 
     <Button
         android:id="@+id/m_create_new"
