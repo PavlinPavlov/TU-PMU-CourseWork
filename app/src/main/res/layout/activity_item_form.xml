@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="60dp"
-            android:text="Create/Update" />
+            android:text="Create" />
 
         <Button
             android:id="@+id/if_cancel_button"

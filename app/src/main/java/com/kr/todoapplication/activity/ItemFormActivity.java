@@ -29,6 +29,8 @@ public class ItemFormActivity extends AppCompatActivity {
     private CheckBox isImportantCheckBox;
     private CheckBox hasDueDate;
     private DatePicker dueDatePicker;
+    Button confirmButton;
+    Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,8 @@ public class ItemFormActivity extends AppCompatActivity {
         hasDueDate = findViewById(R.id.if_use_due_date);
         dueDatePicker = findViewById(R.id.if_date);
 
-        Button confirmButton = findViewById(R.id.if_create_update_button);
-        Button cancelButton = findViewById(R.id.if_cancel_button);
+        confirmButton = findViewById(R.id.if_create_update_button);
+        cancelButton = findViewById(R.id.if_cancel_button);
 
         long databaseId = getIntent().getLongExtra("item-db-id", -1);
 
@@ -108,6 +110,7 @@ public class ItemFormActivity extends AppCompatActivity {
         headerEditText.setText(todoItem.getHeader());
         contentEditText.setText(todoItem.getContent());
         isImportantCheckBox.setChecked(todoItem.isImportant());
+        confirmButton.setText("Update");
 
         if (null != todoItem.getDueTo()) {
             Calendar calendar = Calendar.getInstance();
