@@ -36,9 +36,8 @@
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:layout_toEndOf="@id/ri_content"
-        android:background="#fc0318"
-        android:textColor="#fff" />
+        android:background="@drawable/ic_delete_forever_black_24dp"
+        android:layout_toEndOf="@id/ri_content" />
 
     <TextView
         android:id="@+id/ri_db_id"
