@@ -50,6 +50,7 @@ public class ItemFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveNewItem();
+                finish();
             }
         });
 
