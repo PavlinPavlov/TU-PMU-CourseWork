@@ -2,6 +2,7 @@ package com.kr.todoapplication.recycle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +53,9 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
         holder.header.setText(currentTodoItem.getHeader());
         holder.content.setText(currentTodoItem.getContent());
         holder.databaseIdTextView.setText(String.valueOf(currentTodoItem.getId()));
+
+        if (currentTodoItem.isImportant())
+            holder.parentLayout.setBackgroundColor(Color.rgb(240, 173, 173));
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
