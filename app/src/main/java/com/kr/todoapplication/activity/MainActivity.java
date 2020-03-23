@@ -15,6 +15,7 @@ import com.kr.todoapplication.persistance.TodoItemRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,9 +64,12 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < mostImportant.size(); i++) {
             TodoItem currentTodoItem = mostImportant.get(i);
+
+            Date dueDate = currentTodoItem.getDueTo();
+            String dueDateString = dueDate == null ? "No date set " : dateFormat.format(dueDate);
+
             String header = currentTodoItem.getHeader();
-            String dueDateString = dateFormat.format(currentTodoItem.getDueTo());
-            String displayMessage = dueDateString + ": " + header;
+            String displayMessage = dueDateString + " : " + header;
 
             TextView currentTextView = (TextView) reminderLinearLayout.getChildAt(i + 1);
             currentTextView.setText(displayMessage);

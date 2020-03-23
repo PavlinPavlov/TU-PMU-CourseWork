@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class ItemFormActivity extends AppCompatActivity {
     private EditText headerEditText;
     private EditText contentEditText;
     private CheckBox isImportantCheckBox;
+    private CheckBox hasDueDate;
     private DatePicker dueDatePicker;
 
     @Override
@@ -37,6 +39,7 @@ public class ItemFormActivity extends AppCompatActivity {
         headerEditText = findViewById(R.id.if_header);
         contentEditText = findViewById(R.id.if_content);
         isImportantCheckBox = findViewById(R.id.if_important);
+        hasDueDate = findViewById(R.id.if_use_due_date);
         dueDatePicker = findViewById(R.id.if_date);
 
         Button confirmButton = findViewById(R.id.if_create_update_button);
@@ -60,6 +63,17 @@ public class ItemFormActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        hasDueDate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    dueDatePicker.setVisibility(View.VISIBLE);
+                else
+                    dueDatePicker.setVisibility(View.INVISIBLE);
+
+            }
+        });
     }
 
     private void saveNewItem() {
@@ -67,14 +81,18 @@ public class ItemFormActivity extends AppCompatActivity {
         String header = headerEditText.getText().toString();
         String content = contentEditText.getText().toString();
         boolean isImportant = isImportantCheckBox.isChecked();
-        Date dueDate = getDateFromDatePicker(dueDatePicker);
+        Date dueDate = null;
+
+        if (hasDueDate.isChecked())
+            dueDate = getDateFromDatePicker(dueDatePicker);
+
         TodoItem todoItem = new TodoItem(header, content, isImportant, dueDate);
 
         String databaseIdString = databaseIdTextView.getText().toString();
 
         if (!"".equals(databaseIdString)) {
-            int databaseId = Integer.parseInt(databaseIdString);
-            todoItem.setId((long)databaseId);
+            long databaseId = Long.parseLong(databaseIdString);
+            todoItem.setId(databaseId);
         }
 
         TodoItemRepository.getInstance().persist(todoItem);
@@ -91,9 +109,11 @@ public class ItemFormActivity extends AppCompatActivity {
         contentEditText.setText(todoItem.getContent());
         isImportantCheckBox.setChecked(todoItem.isImportant());
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(todoItem.getDueTo());
-        dueDatePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) - 1, calendar.get(Calendar.DATE));
+        if (null != todoItem.getDueTo()) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(todoItem.getDueTo());
+            dueDatePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) - 1, calendar.get(Calendar.DATE));
+        }
     }
 
     private Date getDateFromDatePicker(DatePicker datePicker) {

@@ -43,10 +43,18 @@
             android:textSize="25sp" />
 
         <CheckBox
+            android:id="@+id/if_use_due_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="40dp"
+            android:text="Due Date"
+            android:textSize="20sp" />
+
+        <CheckBox
             android:id="@+id/if_important"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="150dp"
+            android:layout_marginStart="10dp"
             android:text="Important"
             android:textSize="20sp" />
 
@@ -62,7 +70,7 @@
         android:background="@android:color/transparent"
         android:gravity="top|start"
         android:inputType="textMultiLine"
-        android:lines="5"
+        android:lines="4"
         android:paddingVertical="5dp" />
 
 
@@ -71,6 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:calendarViewShown="false"
+        android:visibility="invisible"
         android:datePickerMode="spinner"
         android:scaleY="0.9" />
 
