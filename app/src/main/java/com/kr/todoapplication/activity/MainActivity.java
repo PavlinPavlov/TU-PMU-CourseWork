@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
         List<TodoItem> mostImportant = TodoItemRepository.getInstance().findMostImportant();
         LinearLayout reminderLinearLayout = findViewById(R.id.m_reminder);
 
+        for (int i = 1; i < reminderLinearLayout.getChildCount(); i++) {
+            ((TextView) reminderLinearLayout.getChildAt(i)).setText("");
+        }
+
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
 
         for (int i = 0; i < mostImportant.size(); i++) {

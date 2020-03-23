@@ -36,34 +36,48 @@
 
 
     <LinearLayout
+        android:id="@+id/m_reminder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="35dp"
         android:layout_marginTop="30dp"
-        android:orientation="vertical"
-        android:id="@+id/m_reminder">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Important reminder"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textColor="#ff1122"
+            android:textSize="26sp" />
 
         <TextView
             android:id="@+id/m_reminder_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:textColor="#ff5522"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/m_reminder_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:textColor="#ff5522"
+
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/m_reminder_3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:textColor="#ff5522"
+            android:textSize="22sp" />
 
     </LinearLayout>
 
