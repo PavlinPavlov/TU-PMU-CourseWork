@@ -1,7 +1,5 @@
 package com.kr.todoapplication.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +7,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.kr.todoapplication.R;
 import com.kr.todoapplication.model.TodoItem;
@@ -21,30 +22,34 @@ public class ItemFormActivity extends AppCompatActivity {
 
     private static final String TAG = "ItemFormActivity";
 
-    Button confirmButton;
-    Button cancelButton;
+    private TextView databaseIdTextView;
+    private EditText headerEditText;
+    private EditText contentEditText;
+    private CheckBox isImportantCheckBox;
+    private DatePicker dueDatePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_form);
 
-        confirmButton = findViewById(R.id.if_create_update_button);
-        cancelButton = findViewById(R.id.if_cancel_button);
+        databaseIdTextView = findViewById(R.id.if_db_id);
+        headerEditText = findViewById(R.id.if_header);
+        contentEditText = findViewById(R.id.if_content);
+        isImportantCheckBox = findViewById(R.id.if_important);
+        dueDatePicker = findViewById(R.id.if_date);
+
+        Button confirmButton = findViewById(R.id.if_create_update_button);
+        Button cancelButton = findViewById(R.id.if_cancel_button);
+
+        long databaseId = getIntent().getLongExtra("item-db-id", -1);
+
+        if (databaseId > -1) populateForm(databaseId);
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String header = ((EditText) findViewById(R.id.if_header)).getText().toString();
-                String content = ((EditText) findViewById(R.id.if_content)).getText().toString();
-                boolean isImportant = ((CheckBox) findViewById(R.id.if_important)).isChecked();
-                Date dueDate = getDateFromDatePicker((DatePicker) findViewById(R.id.if_date));
-                TodoItem todoItem = new TodoItem(header, content, isImportant, dueDate);
-
-                TodoItemRepository.getInstance().save(todoItem);
-
-                startActivity(new Intent(ItemFormActivity.this, ItemViewerActivity.class));
+                saveNewItem();
             }
         });
 
@@ -56,10 +61,44 @@ public class ItemFormActivity extends AppCompatActivity {
         });
     }
 
-    private Date getDateFromDatePicker(DatePicker datePicker){
+    private void saveNewItem() {
+
+        String header = headerEditText.getText().toString();
+        String content = contentEditText.getText().toString();
+        boolean isImportant = isImportantCheckBox.isChecked();
+        Date dueDate = getDateFromDatePicker(dueDatePicker);
+        TodoItem todoItem = new TodoItem(header, content, isImportant, dueDate);
+
+        String databaseIdString = databaseIdTextView.getText().toString();
+
+        if (!"".equals(databaseIdString)) {
+            int databaseId = Integer.parseInt(databaseIdString);
+            todoItem.setId((long)databaseId);
+        }
+
+        TodoItemRepository.getInstance().persist(todoItem);
+
+        startActivity(new Intent(this, ItemViewerActivity.class));
+    }
+
+    private void populateForm(long databaseId) {
+
+        TodoItem todoItem = TodoItemRepository.getInstance().findById(databaseId);
+
+        databaseIdTextView.setText(String.valueOf(todoItem.getId()));
+        headerEditText.setText(todoItem.getHeader());
+        contentEditText.setText(todoItem.getContent());
+        isImportantCheckBox.setChecked(todoItem.isImportant());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(todoItem.getDueTo());
+        dueDatePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) - 1, calendar.get(Calendar.DATE));
+    }
+
+    private Date getDateFromDatePicker(DatePicker datePicker) {
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
-        int year =  datePicker.getYear();
+        int year = datePicker.getYear();
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);

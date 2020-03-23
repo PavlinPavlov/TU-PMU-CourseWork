@@ -1,12 +1,12 @@
 package com.kr.todoapplication.recycle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kr.todoapplication.R;
+import com.kr.todoapplication.activity.ItemFormActivity;
 import com.kr.todoapplication.model.TodoItem;
 import com.kr.todoapplication.persistance.TodoItemRepository;
 
@@ -43,13 +44,14 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ItemViewHolder holder, final int position) {
         Log.d(TAG, "Binding. Position: " + position);
 
         TodoItem currentTodoItem = todoItems.get(position);
 
         holder.header.setText(currentTodoItem.getHeader());
         holder.content.setText(currentTodoItem.getContent());
+        holder.databaseIdTextView.setText(String.valueOf(currentTodoItem.getId()));
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +63,7 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
         holder.parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                updateItemAt(position);
+                updateItem(holder);
                 return true;
             }
         });
@@ -73,26 +75,37 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
     }
 
     private void deleteItemAt(int position) {
-        TodoItem todoItem = todoItems.get(position);
-        TodoItemRepository.getInstance().delete(todoItem);
-        todoItems.remove(todoItem);
+        TodoItem todoItemForDeletion = todoItems.get(position);
+        TodoItemRepository.getInstance().delete(todoItemForDeletion);
+        todoItems.remove(todoItemForDeletion);
 
-        Log.d(TAG, "Deleted item at " + position);
+        Log.d(TAG, "Deleted item at: " + position);
 
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount());
 
-        Toast.makeText(context, String.valueOf(todoItem.getId()), Toast.LENGTH_LONG).show();
+        String toastMessage = "Deleted " + todoItemForDeletion.getHeader();
+        Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show();
     }
 
-    private void updateItemAt(int position) {
-        Log.d(TAG, "An item should be updated (not implemented)");
+    private void updateItem(ItemViewHolder holder) {
+
+        long id = Long.parseLong(holder.databaseIdTextView.getText().toString());
+        TodoItem todoItem = TodoItemRepository.getInstance().findById(id);
+
+        Log.d(TAG, "Updating item with header: " + todoItem.getHeader());
+
+        Intent updateIntent = new Intent(context, ItemFormActivity.class);
+        updateIntent.putExtra("item-db-id", todoItem.getId());
+
+        context.startActivity(updateIntent);
     }
 
 
     // view holder class
     static class ItemViewHolder extends RecyclerView.ViewHolder {
 
+        TextView databaseIdTextView;
         RelativeLayout parentLayout;
         ImageView imageView;
         TextView header;
@@ -101,6 +114,7 @@ public class ItemViewerAdapter extends RecyclerView.Adapter<ItemViewerAdapter.It
 
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
+            databaseIdTextView = itemView.findViewById(R.id.ri_db_id);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             imageView = itemView.findViewById(R.id.ri_image);
             header = itemView.findViewById(R.id.ri_text);

@@ -2,10 +2,11 @@ package com.kr.todoapplication.model;
 
 import com.orm.SugarRecord;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class TodoItem extends SugarRecord {
+public class TodoItem extends SugarRecord implements Serializable {
 
     private String header;
     private String content;
